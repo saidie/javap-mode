@@ -29,7 +29,7 @@
       ("\\<[a-zA-Z]+\\.[a-zA-Z0-9._]*[A-Z]+[a-zA-Z0-9/.$]*\\>" . font-lock-type-face) ;; borrowed from clojure-mode
       ("\\<[a-zA-Z]+/[a-zA-Z0-9/_]*[A-Z]+[a-zA-Z0-9/$]*\\>" . font-lock-type-face)
       ("[0-9]+:" . font-lock-comment-face)
-      ("\\(#.+\\)" . font-lock-comment-face)
+      ("\\(#[0-9]+\\)" . font-lock-variable-name-face)
       ("\\(\\w\\|_\\)+(" . font-lock-preprocessor-face)
       (")" . font-lock-preprocessor-face)
       ("\\(invoke\\w+\\)" . font-lock-function-name-face)
@@ -61,10 +61,12 @@
 
       (".add" . font-lock-keyword-face)
 
+      ("Code:" . font-lock-comment-face)
+
       (,(regexp-opt
          '("public" "static" "final" "volatile" ";" "transient" "class" "extends" "implements"
            "synchronized" "protected" "private" "abstract" "interface" "Code:" "throws"))
-       . font-lock-comment-face)
+       . font-lock-keyword-face)
       ;;      ("\\(\\w+\\)" . font-lock-keyword-face)
       ))
   "Default expressions to highlight in javap mode.")
@@ -77,10 +79,10 @@
   "A major mode for viewing javap files."
   :syntax-table javap-mode-syntax-table′
   (modify-syntax-entry ?_ "w" javap-mode-syntax-table′)
-  (modify-syntax-entry ?# "<" javap-mode-syntax-table′)
+  (modify-syntax-entry ?/ "<" javap-mode-syntax-table′)
   (modify-syntax-entry ?\n ">" javap-mode-syntax-table′)
-  (set (make-local-variable 'comment-start) "#")
-  (set (make-local-variable 'comment-start-skip) "#")
+  (set (make-local-variable 'comment-start) "//")
+  (set (make-local-variable 'comment-start-skip) "//")
   (set (make-local-variable 'font-lock-defaults) '(javap-font-lock-keywords)))
 
 (defun javap-buffer ()
